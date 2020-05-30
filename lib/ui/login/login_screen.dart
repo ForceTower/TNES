@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:tnes/R.dart';
+import 'package:tnes/ui/logging_in/logging_in_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -10,18 +11,29 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreen extends State<LoginScreen> {
+  final _username = TextEditingController();
+  final _password = TextEditingController();
 
   _onLogin() {
+    final username = _username.text;
+    final password = _password.text;
+
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => LoggingInScreen(username: username, password: password),
+    ));
+  }
+
+  _onNoAccount() {
 
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).backgroundColor,
       body: SafeArea(
         child: ListView(
-          padding: EdgeInsets.only(bottom: 48),
+          padding: EdgeInsets.only(bottom: 48, top: 24),
           children: <Widget>[
             Container(
               child: Hero(
@@ -54,18 +66,26 @@ class _LoginScreen extends State<LoginScreen> {
                   ),
                   Container(height: 24),
                   TextField(
+                    controller: _username,
                     decoration: InputDecoration(
                       labelText: 'Usuário',
-                      contentPadding: EdgeInsets.symmetric(horizontal: 8),
+                      contentPadding: EdgeInsets.symmetric(horizontal: 8)
+                    ),
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onBackground
                     ),
                   ),
                   Container(height: 16),
                   TextField(
+                    controller: _password,
                     decoration: InputDecoration(
                       labelText: 'Senha',
                       contentPadding: EdgeInsets.symmetric(horizontal: 8)
                     ),
                     obscureText: true,
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onBackground
+                    ),
                   ),
                   Container(height: 36),
                   MaterialButton(
@@ -80,7 +100,7 @@ class _LoginScreen extends State<LoginScreen> {
                     ),
                   ),
                   MaterialButton(
-                    onPressed: _onLogin,
+                    onPressed: _onNoAccount,
                     minWidth: double.infinity,
                     child: Text(
                       'Não tem uma conta?',

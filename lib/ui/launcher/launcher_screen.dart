@@ -12,18 +12,6 @@ class LauncherScreen extends StatefulWidget {
 
 class _LauncherScreen extends State<LauncherScreen> {
   @override
-  void initState() {
-    super.initState();
-
-    // Simulate session check (lul)
-    Future.delayed(Duration(seconds: 2), () {
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) => LoginScreen(),
-      ));
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,

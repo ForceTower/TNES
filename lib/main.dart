@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:provider/provider.dart';
+import 'package:tnes/core/store/application_store.dart';
+import 'package:tnes/themes.dart';
 import 'package:tnes/ui/launcher/launcher_screen.dart';
+import 'package:tnes/ui/login/login_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -9,67 +14,42 @@ void main() async {
   runApp(UniverseApp());
 }
 
-class UniverseApp extends StatelessWidget {
+class UniverseApp extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _UniverseApp();
+  }
+
+}
+
+class _UniverseApp extends State<UniverseApp> {
+  final applicationStore = ApplicationStore();
+
+  @override
+  void initState() {
+    super.initState();
+    applicationStore.initializeApp();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'UNES Admin',
-      theme: ThemeData(
-        fontFamily: 'Product',
-        backgroundColor: Colors.white,
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-        colorScheme: ColorScheme(
-          surface: Colors.white,
-          background: Colors.white,
-          primary: Color(0xFF00a1e0),
-          secondary: Color(0xFFFFC107),
-          error: Colors.redAccent,
-          onBackground: Colors.black,
-          onError: Colors.white,
-          onPrimary: Colors.white,
-          onSecondary: Colors.white,
-          primaryVariant: Color(0xFF007bb9),
-          onSurface: Colors.black,
-          secondaryVariant: Color(0xFFff6c00),
-          brightness: Brightness.light
-        ),
-        snackBarTheme: SnackBarThemeData(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(4))
-          ),
-          behavior: SnackBarBehavior.floating
+    return MultiProvider(
+      providers: [
+        Provider.value(value: applicationStore)
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'UNES Admin',
+        theme: lightTheme,
+        darkTheme: darkTheme,
+        home: Observer(
+          builder: (context) {
+            if (!applicationStore.initialized)
+              return LauncherScreen();
+            return LoginScreen();
+          }
         )
-      ),
-      darkTheme: ThemeData(
-        fontFamily: 'Product',
-        backgroundColor: Color(0xFF1A1A1A),
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-        snackBarTheme: SnackBarThemeData(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(4))
-          ),
-          behavior: SnackBarBehavior.floating
-        ),
-        colorScheme: ColorScheme(
-          surface: Color(0xFF1A1A1A),
-          background: Color(0xFF272727),
-          primary: Color(0xFF00a1e0),
-          secondary: Color(0xFFFFC107),
-          error: Colors.redAccent,
-          onBackground: Colors.white,
-          onError: Colors.black,
-          onPrimary: Colors.white,
-          onSecondary: Colors.white,
-          primaryVariant: Color(0xFF007bb9),
-          onSurface: Colors.black,
-          secondaryVariant: Color(0xFFff6c00),
-          brightness: Brightness.dark
-        ),
-      ),
-      home: LauncherScreen()
+      )
     );
   }
 }

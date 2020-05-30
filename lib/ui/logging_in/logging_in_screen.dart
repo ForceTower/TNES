@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 import 'package:tnes/R.dart';
+import 'package:tnes/core/store/application_store.dart';
 
 class LoggingInScreen extends StatefulWidget {
   final String username;
@@ -17,8 +19,20 @@ class LoggingInScreen extends StatefulWidget {
 class _LoggingInScreen extends State<LoggingInScreen> {
   final String username;
   final String password;
-
   _LoggingInScreen({this.username, this.password});
+
+  ApplicationStore store;
+
+  @override
+  void initState() {
+    super.initState();
+    store = Provider.of<ApplicationStore>(context, listen: false);
+
+    Future.delayed(Duration(seconds: 4), () {
+      print('happening...');
+      store.setConnected(true);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -1,16 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:tnes/R.dart';
-import 'package:tnes/ui/login/login_screen.dart';
 
-class LauncherScreen extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() {
-    return _LauncherScreen();
-  }
-}
-
-class _LauncherScreen extends State<LauncherScreen> {
+class LauncherScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,12 +10,9 @@ class _LauncherScreen extends State<LauncherScreen> {
       body: Center(
         child: Padding(
           padding: EdgeInsets.only(left: 24),
-          child: Hero(
-            tag: 'logo_transition',
-            child: Image(
-              image: AssetImage(R.drawable_logo),
-              fit: BoxFit.cover
-            ),
+          child: Image(
+            image: AssetImage(R.drawable_logo),
+            fit: BoxFit.cover
           ),
         )
       ),

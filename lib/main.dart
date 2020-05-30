@@ -4,6 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:tnes/core/store/application_store.dart';
 import 'package:tnes/themes.dart';
+import 'package:tnes/ui/home/home_screen.dart';
 import 'package:tnes/ui/launcher/launcher_screen.dart';
 import 'package:tnes/ui/login/login_screen.dart';
 
@@ -19,7 +20,6 @@ class UniverseApp extends StatefulWidget {
   State<StatefulWidget> createState() {
     return _UniverseApp();
   }
-
 }
 
 class _UniverseApp extends State<UniverseApp> {
@@ -46,6 +46,12 @@ class _UniverseApp extends State<UniverseApp> {
           builder: (context) {
             if (!applicationStore.initialized)
               return LauncherScreen();
+
+            // This might create a skip on start since store will report user
+            // connected...
+            if (applicationStore.isConnected)
+              return HomeScreen();
+
             return LoginScreen();
           }
         )

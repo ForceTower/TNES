@@ -21,4 +21,9 @@ abstract class _ApplicationStore with Store {
   _setAppInitialised(bool flag) {
     initialized = flag;
   }
+
+  @action
+  setConnected(bool connected) {
+    isConnected = connected;
+  }
 }
